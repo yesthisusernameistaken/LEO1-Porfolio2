@@ -49,14 +49,63 @@ Before creating a container, check networking and unprivileged section!
 
 
 ## Unprivileged access and Network
+This has to be done before creating the containers, if not the container will refuse to start
+Guide on privileges: https://help.ubuntu.com/lts/serverguide/lxc.html.en#lxc-global-conf
+Guide on networking with LXC https://angristan.xyz/setup-network-bridge-lxc-net/
 
+* Create folder
+````
+mkdir -p ~/.config/lxc
+````
+Create a file: default.conf
+In that file paste the lines below. This makes you containers unprivileged and gives them network access 
 
+````
+lxc.id_map = u 0 100000 65536
+lxc.id_map = g 0 100000 65536
+lxc.network.type = veth
+lxc.network.link = lxcbr0
+lxc.network.flags = up
+lxc.network.hwaddr = 00:16:3e:xx:xx:xx
+````
 
+* Network bridge
+Create /etc/default/lxc-net
+````
+sudo nano lxc-net
+````
+In it, put: 
+````
+USE_LXC_BRIDGE="true"
+````
 
+Restart the service
+````
+systemctl restart lxc-net
+````
 
 ## The containers
 
+	* Create container C1 and C2
+````
+lxc-create -n C1 -t download -- -d alpine -r 3.4 -a armhf 
+````
+This needs internet connection to download the image
 
+* Start container 
+
+````
+lxc-start -n C1
+````
+	* 
+* Update the container
+````
+sudo lxc-attach -n C1 -- apk update
+````
+* Install needed software
+````
+lxc-attach -n C1 -- apk add lighttpd php5 php5-cgi php5-curl php5-fpm
+````
 
 ### For Container C1
 
