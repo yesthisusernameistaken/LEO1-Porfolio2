@@ -86,18 +86,19 @@ systemctl restart lxc-net
 
 ## The containers
 
-	* Create container C1 and C2
+* Create container C1 and C2
+This needs internet connection to download the image
+
 ````
 lxc-create -n C1 -t download -- -d alpine -r 3.4 -a armhf 
 ````
-This needs internet connection to download the image
 
 * Start container 
 
 ````
 lxc-start -n C1
 ````
-	* 
+
 * Update the container
 ````
 sudo lxc-attach -n C1 -- apk update
@@ -109,17 +110,72 @@ lxc-attach -n C1 -- apk add lighttpd php5 php5-cgi php5-curl php5-fpm
 
 ### For Container C1
 
+* Install software
+````
+lxc-attach -n C1 -- apk add lighttpd php5 php5-cgi php5-curl php5-fpm
+````
+Launch the container
+````
+lxc-start -n C1
+````
+
+* Install nano to edit files from inside the container
+````
+apk add nano
+````
+* Edit the conf file
+Uncomment the include "mod_fastcgi.conf" line in /etc/lighttpd/lighttpd.conf
+
+* Light DHCP
+````
+rc-update add lighttpd default
+openrc
+````
+
+* Create /var/www/localhost/htdocs/index.php
+
+This will be the HTML page that you will see in your browser. 
+See index.php file for more information
+
+* Directing external traffic to container C1
+````
+iptables -t nat -A PREROUTING -i usb0 -p tcp --dport 80 -j DNAT --to-destination 10.0.3.107:80
+````
+The IP will need to be changed based on what your IP of C1 is. 
+
 
 ### For Container C2
 
+* Install nano and socat
+Will install nano without having to go into the container
+
+````
+sudo lxc-attach -n C2 -- apk add nano socat 
+````
+* Launch the container.
+````
+lxc-start -n C2
+````
+* Create rng.sh in /bin
+````
+nano rng.sh
+````
+See rng.sh file for more information
+
+* Make it executable 
+````
+chmod +x
+````
+* Run socat command
+````
+socat -v -v tcp-listen:8080,fork,reuseaddr exec:"sh /bin/rng.sh"
+````
 
 ## On a computer connected to the Pi
 Open http://raspberrypi.local/
 This is assuming:
 Both containers are up and running and have IP's (can be checked using "lxc-ls -f")
 Socat command is running on container C2
-
-
 
 
 ## To do when PI reboots 
