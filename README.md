@@ -1,20 +1,52 @@
-# Project Title
+# Portfolio 2
 
-One Paragraph of project description goes here
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+For SDU class Linux for Embeded Objects
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+You'll need LXC install on your raspberry pi zero. 
+You'll also need access to the internet as the pi needs to download the image for the container. 
 
-```
-Give examples
-```
+### Some useful commands
 
-### Installing
+Delete container:
+````
+lxc-destroy -n C1
+````
+Check container is there and running
+This will also tell you if the container has an IP
+````
+lxc-ls -f
+````
+Start container:
+````
+lxc-start -n C2
+````
+Stop container:
+````
+lxc-stop -n C2
+````
+
+To enter a container: 
+````
+lxc-attach -n C1
+````
+To exit you will need to shutdown the container as if you were using a linux based machine.
+
+To run a command in a container without launching it, you can use: 
+````
+sudo lxc-attach -n C1 -- £££££££ 
+````
+This will run the £££££££ commands as if you're doing it in the container.
+
+To install software use "apk add", not "apt-get". This is due to the use of alpine. 
+
+Examples of HTML code. This can be used to edit the index.php file on C1
+https://www.w3schools.com/html/html_examples.asp
+
+
+Before creating a container, check networking and unprivileged section! 
+
 
 A step by step series of examples that tell you how to get a development env running
 
