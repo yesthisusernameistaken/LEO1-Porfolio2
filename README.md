@@ -4,7 +4,7 @@ For SDU class Linux for Embeded Objects
 
 ### Prerequisites
 
-You'll need LXC install on your raspberry pi zero. 
+You'll need LXC installed on your raspberry pi zero. 
 You'll also need access to the internet as the pi needs to download the image for the container. 
 
 ### Some useful commands
@@ -48,20 +48,37 @@ https://www.w3schools.com/html/html_examples.asp
 Before creating a container, check networking and unprivileged section! 
 
 
-A step by step series of examples that tell you how to get a development env running
+## Unprivileged access and Network
 
-Say what the step will be
 
-```
-Give the example
-```
 
-And repeat
 
-```
-until finished
-```
 
-End with an example of getting some data out of the system or using it for a little demo
+## The containers
 
-## Running the tests
+
+
+## For Container C1
+
+
+## For Container C2
+
+
+## On a computer connected to the Pi
+Open http://raspberrypi.local/
+This is assuming:
+Both containers are up and running and have IP's (can be checked using "lxc-ls -f")
+Socat command is running on container C2
+
+
+
+
+## To do when PI reboots 
+
+If you reboot the PI you'll need to do a few steps to get everything working again. 
+* Start both containers
+* Directing external traffic to container C1
+* Launch socat script on C2
+
+
+
