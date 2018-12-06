@@ -1,13 +1,13 @@
 # Portfolio 2
 
-For SDU class Linux for Embeded Objects
+For SDU class - Linux for Embeded Objects
 
-### Prerequisites
+## Prerequisites
 
 You'll need LXC installed on your raspberry pi zero. 
 You'll also need access to the internet as the pi needs to download the image for the container. 
 
-### Some useful commands
+## Some useful commands
 
 Delete container:
 ````
@@ -58,10 +58,10 @@ Before creating a container, check networking and unprivileged section!
 
 
 
-## For Container C1
+### For Container C1
 
 
-## For Container C2
+### For Container C2
 
 
 ## On a computer connected to the Pi
